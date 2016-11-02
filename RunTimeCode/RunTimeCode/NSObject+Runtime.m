@@ -10,7 +10,15 @@
 
 @implementation NSObject (Runtime)
 
+const char * kPropertiesListKey = "PropertiesListKey";
+
 + (NSArray *)getObjectProperties {
+    
+    NSArray *ptyList = objc_getAssociatedObject(self, kPropertiesListKey);
+    if (ptyList != nil) {
+        return ptyList;
+    }
+
     NSLog(@"getObjectProperties获取类的属性数组");
     unsigned int count = 0;
     /** 获取类的属性数组 */
@@ -29,6 +37,18 @@
     
     /**  You must free the array with free(). C语言数组需要rlease 否则内存泄漏 */
     free(propertyList);
+    
+    // --- 2. 到此为止，对象的属性数组已经获取完毕，利用关联对象，动态添加属性
+    /**
+     参数
+     
+     1. 对象 self [OC 中 class 也是一个特殊的对象]
+     2. 动态添加属性的 key，获取值的时候使用
+     3. 动态添加的属性值
+     4. 对象的引用关系
+     */
+    objc_setAssociatedObject(self, kPropertiesListKey, arrayProperties.copy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
     return arrayProperties.copy;
 }
 

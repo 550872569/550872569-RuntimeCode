@@ -26,7 +26,8 @@
     NSDictionary *dict = @{@"name":@"yhp",
                            @"age":@18,
                            @"height":@1.8,
-                           @"sex":@1
+                           @"sex":@1,
+                           @"propertyNil":@"objProperty"
                            };
     [self initObjWithDict:dict];
 }
