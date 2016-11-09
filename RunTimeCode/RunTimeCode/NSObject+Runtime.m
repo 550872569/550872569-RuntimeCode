@@ -14,7 +14,9 @@ const char * kPropertiesListKey = "PropertiesListKey";
 
 + (NSArray *)getObjectProperties {
     
+    /** 获取关联对象的属性数组 */
     NSArray *ptyList = objc_getAssociatedObject(self, kPropertiesListKey);
+    /** 如果属性数组有值就返回  可以提高效率 */
     if (ptyList != nil) {
         return ptyList;
     }
